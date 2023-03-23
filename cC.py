@@ -1,7 +1,7 @@
-# See documentation at https://github.com/masterofrisk/pythonvba
 import configparser
 import os
 from typing import Optional
+# See documentation at https://github.com/masterofrisk/pythonvba
 
 class C:
     def __init__(self):
