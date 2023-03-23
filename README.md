@@ -48,7 +48,7 @@ savesetting("app", "window", "width", "1024")
 
 ---
 ## getsetting(a='', b='', c='', d='')
-Retrieve a setting from an INI file.
+If you pass a value to the d parameter, the savesetting function will be invoked to save the value before retrieving it from the INI file. This behavior can be useful in development mode to save settings the first time you run your code without needing to change the code structure or create additional code to set the values. If the d parameter is empty, the function will only retrieve the setting from the INI file. If the variable does not have a value, an empty string will be returned.
 
 **Arguments:**
 
