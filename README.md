@@ -6,7 +6,7 @@ This module provides a set of VBA-like functions that you can use directly in yo
 from cC import *
 ```
 
-Alternatively you can import it with `pip`.
+Alternatively, you can also install the package with `pip`.
 
 ```python
 pip install -U vba-mor
