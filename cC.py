@@ -1,3 +1,4 @@
+# See documentation at https://github.com/masterofrisk/pythonvba
 import configparser
 import os
 from typing import Optional
