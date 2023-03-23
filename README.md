@@ -5,11 +5,27 @@ This module provides a set of VBA-like functions that you can use directly in yo
 ```python
 from cC import *
 ```
-
-Alternatively, you can also install the package with `pip`.
+---
+Alternatively, you can also install the **morvba** package with `pip`.
 
 ```python
-pip install -U vba-mor
+pip install -U morvba
+```
+
+After your package has been installed, you can import the class **top-level functions** from the package as follows:
+
+```python
+from morvba.cC import *
+```
+
+Or if you prefer, you can import the **C** class from the package **morvba** as follows:
+
+```python
+from morvba.cC import C
+
+# Now you can create an instance of the C class and use its methods
+c = C()
+c.trim('  This is a string   ')  # Returns 'This is a string'
 ```
 ---
 # Functions
@@ -155,4 +171,4 @@ Extract a string between two delimiters.
 result = pkey("Example: [Hello, world!]", "[", "]")
 ```
 ---
-You can use these functions in your Python code without referencing the class name, just like you would in VBA.
+If you import these functions as top-level functions in your Python code, you can use them without referencing the class name, just like you would in VBA.
