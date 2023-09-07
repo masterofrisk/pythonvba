@@ -14,6 +14,12 @@ Alternatively you can import it with `pip`.
 pip install -U morvba
 ```
 
+After importing with `pip` you can use like this:
+
+```python
+from morvba.cC import *
+```
+
 ---
 # Functions
 
