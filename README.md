@@ -2,7 +2,7 @@
 
 This module provides a set of VBA-like and other useful functions that you can use directly in your Python projects. Save the `cC.py` file to your project folder and import the functions using the following import statement:
 
-https://pypi.org/project/morvba/2.0.0/
+https://pypi.org/project/morvba/2.0.1/
 
 ```python
 from cC import *
