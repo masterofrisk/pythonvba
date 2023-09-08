@@ -1,15 +1,15 @@
-import ast
-import chardet
-import colorama
-import configparser
-import datetime
-import hashlib
-import os
-import re
-import tiktoken
-import traceback
-import urllib.parse
-import winreg
+import ast as ast_cC
+import chardet as chardet_cC
+import colorama as colorama_cC
+import configparser as configparser_cC
+import datetime as datetime_cC
+import hashlib as hashlib_cC
+import os as os_cC
+import re as re_cC
+import tiktoken as tiktoken_cC
+import traceback as traceback_cC
+import urllib.parse as urllibparse_cC
+import winreg as winreg_cC
 from colorama import Fore, Back, Style, init
 from dateutil.parser import parse
 from typing import Optional, List
@@ -19,7 +19,7 @@ class C:
         """
         Initialize the class and set up colorama for terminal color support.
         """
-        colorama.init(autoreset=True)
+        colorama_cC.init(autoreset=True)
 
     def savesetting(self, a: str = '', b: str = '', c: str = '', d: str = '') -> None:
         """
@@ -30,11 +30,11 @@ class C:
             d: The key value to be saved.
         """
         path = "settings"
-        if not os.path.exists(path):
-            os.makedirs(path)
-        config = configparser.ConfigParser()
+        if not os_cC.path.exists(path):
+            os_cC.makedirs(path)
+        config = configparser_cC.ConfigParser()
         config[a + '_' + b + '_' + c] = {'key': d}
-        with open(os.path.join(path, a + '_' + b + '_' + c + '.ini'), 'w') as configfile:
+        with open(os_cC.path.join(path, a + '_' + b + '_' + c + '.ini'), 'w') as configfile:
             config.write(configfile)
 
     def getsetting(self, a: str = '', b: str = '', c: str = '', d: str = '') -> Optional[str]:
@@ -50,10 +50,10 @@ class C:
         """
         try:
             path = "settings"
-            if not os.path.exists(path):
-                os.makedirs(path)
-            config = configparser.ConfigParser()
-            config.read(os.path.join(path, a + '_' + b + '_' + c + '.ini'))
+            if not os_cC.path.exists(path):
+                os_cC.makedirs(path)
+            config = configparser_cC.ConfigParser()
+            config.read(os_cC.path.join(path, a + '_' + b + '_' + c + '.ini'))
             if d == '':
                 return config.get(a + '_' + b + '_' + c, 'key')
             else:
@@ -71,9 +71,9 @@ class C:
             c: The registry key.
             d: The value to be saved.
         """
-        registry_key = winreg.CreateKey(winreg.HKEY_CURRENT_USER, f'Software\\VB and VBA Program Settings\\{a}\\{b}')
-        winreg.SetValueEx(registry_key, c, 0, winreg.REG_SZ, d)
-        winreg.CloseKey(registry_key)
+        registry_key = winreg_cC.CreateKey(winreg_cC.HKEY_CURRENT_USER, f'Software\\VB and VBA Program Settings\\{a}\\{b}')
+        winreg_cC.SetValueEx(registry_key, c, 0, winreg_cC.REG_SZ, d)
+        winreg_cC.CloseKey(registry_key)
 
     def getsettingreg(self, a: str = '', b: str = '', c: str = '', d: str = '') -> Optional[str]:
         """
@@ -88,9 +88,9 @@ class C:
             The retrieved setting or an empty string if not found.
         """
         try:
-            registry_key = winreg.OpenKey(winreg.HKEY_CURRENT_USER, f'Software\\VB and VBA Program Settings\\{a}\\{b}')
-            value, regtype = winreg.QueryValueEx(registry_key, c)
-            winreg.CloseKey(registry_key)
+            registry_key = winreg_cC.OpenKey(winreg_cC.HKEY_CURRENT_USER, f'Software\\VB and VBA Program Settings\\{a}\\{b}')
+            value, regtype = winreg_cC.QueryValueEx(registry_key, c)
+            winreg_cC.CloseKey(registry_key)
             if d == '':
                 return value
             else:
@@ -213,13 +213,13 @@ class C:
         Args:
             e: The error message or exception object.
         """
-        current_dtime = datetime.now()
+        current_dtime = datetime_cC.datetime.now()
         formatted_datetime = current_dtime.strftime("%Y-%m-%d %H:%M:%S")   
         if e.__traceback__: 
-            tb = traceback.extract_tb(e.__traceback__)[-1]
+            tb = traceback_cC.extract_tb(e.__traceback__)[-1]
             print(f"\n  {Fore.LIGHTYELLOW_EX}-- An error occurred in function '{tb.name}' at line {tb.lineno}:\n    {Fore.LIGHTBLACK_EX}{type(e).__name__} {Fore.LIGHTYELLOW_EX}// {Fore.LIGHTRED_EX}{str(e)}{Fore.LIGHTYELLOW_EX} at {str(formatted_datetime)}.{Style.RESET_ALL}\n")
             print(f"\n {Fore.LIGHTCYAN_EX}Traceback info:\n")    
-            tb_info = traceback.extract_tb(e.__traceback__)
+            tb_info = traceback_cC.extract_tb(e.__traceback__)
             i = "YELLOW"
             for frame in tb_info:
                 color = Fore.YELLOW if i == "YELLOW" else Fore.CYAN
@@ -239,7 +239,7 @@ class C:
         Returns:
             The converted list.
         """
-        return ast.literal_eval(text)
+        return ast_cC.literal_eval(text)
 
     def remove_first_part_of_domain(self, url: str = '') -> str:
         """
@@ -251,7 +251,7 @@ class C:
         Returns:
             The domain without the subdomain.
         """
-        domain = urllib.parse.urlparse(url).netloc
+        domain = urllibparse_cC.urlparse(url).netloc
         parts = domain.split('.')
         return '.'.join(parts[1:]) if len(parts) > 1 else domain
 
@@ -279,7 +279,7 @@ class C:
             A list of href values.
         """
         pattern = r'<a[^>]+href="([^">]+)"'
-        hrefs = re.findall(pattern, html)
+        hrefs = re_cC.findall(pattern, html)
         return hrefs
 
     def remove_extra_whitespace(self, t: str = '') -> str:
@@ -292,9 +292,9 @@ class C:
         Returns:
             The cleaned string.
         """
-        t = re.sub('[ \t]+', ' ', t)  # replace multiple spaces or tabs with one space    
+        t = re_cC.sub('[ \t]+', ' ', t)  # replace multiple spaces or tabs with one space    
         t = t.replace('\n ','\n')
-        t = re.sub('\n+', '\n', t)  # replace multiple newlines with one
+        t = re_cC.sub('\n+', '\n', t)  # replace multiple newlines with one
         return t.strip()  # remove leading and trailing whitespace
 
     def remove_html_tags(self, text: str = '') -> str:
@@ -307,8 +307,8 @@ class C:
         Returns:
             The cleaned string.
         """
-        clean = re.compile('<.*?>', re.DOTALL)
-        x = re.sub(clean, '', str(text).replace('&nbsp;', ' ').replace(' ', ' '))
+        clean = re_cC.compile('<.*?>', re_cC.DOTALL)
+        x = re_cC.sub(clean, '', str(text).replace('&nbsp;', ' ').replace(' ', ' '))
         return remove_extra_whitespace(x)
 
     def remove_html_scripts(self, text: str = '') -> str:
@@ -321,10 +321,10 @@ class C:
         Returns:
             The cleaned string.
         """
-        clean = re.compile('<script.*?</script>', re.DOTALL)
-        c = re.sub(clean, '', text)
-        clean = re.compile('<style.*?</style>', re.DOTALL)
-        return re.sub(clean, '', c)
+        clean = re_cC.compile('<script.*?</script>', re_cC.DOTALL)
+        c = re_cC.sub(clean, '', text)
+        clean = re_cC.compile('<style.*?</style>', re_cC.DOTALL)
+        return re_cC.sub(clean, '', c)
 
     def clean_space_line(self, text: str = '') -> str:
         """
@@ -336,10 +336,10 @@ class C:
         Returns:
             The cleaned string.
         """
-        t = re.sub('\s+', ' ', text)  # replace multiple spaces and newlines with one space
-        t = re.sub('[ \t]+', ' ', t)  # replace multiple spaces or tabs with one space    
+        t = re_cC.sub('\s+', ' ', text)  # replace multiple spaces and newlines with one space
+        t = re_cC.sub('[ \t]+', ' ', t)  # replace multiple spaces or tabs with one space    
         t = t.replace('\n ','\n')
-        t = re.sub('\n+', '\n', t)  # replace multiple newlines with one
+        t = re_cC.sub('\n+', '\n', t)  # replace multiple newlines with one
         return t.strip()  # remove leading and trailing whitespace
 
     def remove_html(self, text: str = '') -> str:
@@ -352,12 +352,12 @@ class C:
         Returns:
             The cleaned string.
         """
-        clean = re.compile('<script.*?</script>', re.DOTALL)
-        c = re.sub(clean, '', text)
-        clean = re.compile('<style.*?</style>', re.DOTALL)
-        d = re.sub(clean, '', c)
-        clean = re.compile('<.*?>', re.DOTALL)
-        r = re.sub(clean, '', str(d).replace('&nbsp;', ' ').replace(' ', ' '))
+        clean = re_cC.compile('<script.*?</script>', re_cC.DOTALL)
+        c = re_cC.sub(clean, '', text)
+        clean = re_cC.compile('<style.*?</style>', re_cC.DOTALL)
+        d = re_cC.sub(clean, '', c)
+        clean = re_cC.compile('<.*?>', re_cC.DOTALL)
+        r = re_cC.sub(clean, '', str(d).replace('&nbsp;', ' ').replace(' ', ' '))
         return clean_space_line(r)
 
     def convert_url_to_filename(self, url: str = '') -> str:
@@ -371,9 +371,9 @@ class C:
             The converted filename.
         """
         # Remove the protocol and replace invalid characters with '_'
-        filename = re.sub(r'https?://', '', url)  # Remove 'http://' or 'https://'
-        filename = re.sub(r'[\\/:*?"<>|]', '_', filename)  # Replace invalid characters with '_'
-        filename = re.sub(r'[. ]$', '', filename)  # Remove trailing '.' or ' '
+        filename = re_cC.sub(r'https?://', '', url)  # Remove 'http://' or 'https://'
+        filename = re_cC.sub(r'[\\/:*?"<>|]', '_', filename)  # Replace invalid characters with '_'
+        filename = re_cC.sub(r'[. ]$', '', filename)  # Remove trailing '.' or ' '
         return filename
 
     def md5(self, value: str = '') -> str:
@@ -386,7 +386,7 @@ class C:
         Returns:
             The MD5 hash.
         """
-        m = hashlib.md5()
+        m = hashlib_cC.md5()
         m.update(value.encode('utf-8'))
         return m.hexdigest()
 
@@ -397,7 +397,7 @@ class C:
         Returns:
             The formatted UTC time.
         """
-        d = datetime.utcnow()
+        d = datetime_cC.utcnow()
         return d.strftime("%a, %d %b %Y %H:%M:%S GMT")
 
     def jsURLenc(self, u: str = '') -> str:
@@ -410,7 +410,7 @@ class C:
         Returns:
             The URL-encoded string.
         """
-        return urllib.parse.quote(u)
+        return urllibparse_cC.quote(u)
 
     def jsURLdec(self, u: str = '') -> str:
         """
@@ -422,7 +422,7 @@ class C:
         Returns:
             The decoded string.
         """
-        return urllib.parse.unquote(u)
+        return urllibparse_cC.unquote(u)
 
     def jsGetDomainName(self, hostName: str = '') -> str:
         """
@@ -434,11 +434,11 @@ class C:
         Returns:
             The domain name.
         """
-        parsed_uri = urllib.parse.urlparse(hostName)
+        parsed_uri = urllibparse_cC.urlparse(hostName)
         domain = '{uri.netloc}'.format(uri=parsed_uri)
         return domain
 
-    def is_url(self, str: str = '') -> bool:
+    def is_url(self, string: str = '') -> bool:
         """
         Check if a string is a valid URL.
 
@@ -448,7 +448,7 @@ class C:
         Returns:
             True if the string is a valid URL, False otherwise.
         """
-        pattern = re.compile(
+        pattern = re_cC.compile(
             r'^(https?:\/\/)?'  # protocol
             r'((([a-z\d]([a-z\d-]*[a-z\d])*)\.)+[a-z]{2,}|'  # domain name and extension
             r'((\d{1,3}\.){3}\d{1,3}))'  # OR ip (v4) address
@@ -456,9 +456,9 @@ class C:
             r'(\/[-a-z\d%_.~+]*)*'  # path
             r'(\?[;&a-z\d%_.~+=-]*)?'  # query string
             r'(\#[-a-z\d_]*)?$',  # fragment locator
-            re.IGNORECASE
+            re_cC.IGNORECASE
         )
-        return bool(pattern.match(str))
+        return bool(pattern.match(string))
 
     def is_email(self, email_addr: str = '') -> bool:
         """
@@ -470,7 +470,7 @@ class C:
         Returns:
             True if the string is a valid email address, False otherwise.
         """
-        reg_ex = re.compile(r"^[-+.\w]{1,64}@[-.\w]{1,64}\.[-.\w]{2,6}$")
+        reg_ex = re_cC.compile(r"^[-+.\w]{1,64}@[-.\w]{1,64}\.[-.\w]{2,6}$")
         return bool(reg_ex.match(email_addr))
 
     def is_date(self, string: str = '', fuzzy: bool = False) -> bool:
@@ -503,9 +503,9 @@ class C:
             The estimated number of tokens.
         """
         try:
-            encoding = tiktoken.encoding_for_model(model)
+            encoding = tiktoken_cC.encoding_for_model(model)
         except KeyError:
-            encoding = tiktoken.get_encoding("cl100k_base")
+            encoding = tiktoken_cC.get_encoding("cl100k_base")
         
         if model[:4] == "gpt-":  # note: future models may deviate from this
             num_tokens = 0
@@ -537,7 +537,7 @@ class C:
         """
         with open(file, 'rb') as f:
             rawdata = f.read()
-            result = chardet.detect(rawdata)
+            result = chardet_cC.detect(rawdata)
             encoding = result.get('encoding', 'utf-8')  # Default to utf-8 if encoding can't be determined
             return rawdata.decode(encoding, errors='replace')  # Decode using the detected encoding
         
@@ -678,7 +678,7 @@ def jsGetDomainName(hostName: str = '') -> str:
     return c_instance.jsGetDomainName(hostName)
 
 
-def is_url(str: str = '') -> bool:
+def is_url(string: str = '') -> bool:
     c_instance = C()
     return c_instance.is_url(str)
 
